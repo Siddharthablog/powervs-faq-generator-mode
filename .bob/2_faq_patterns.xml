@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faq_patterns version="1.0.0">
+  <description>PowerVS FAQ patterns extracted from existing faq.md file</description>
+
+  <pattern id="what-is-concept">
+    <name>Conceptual "What is" FAQ</name>
+    <question_template>What is {{site.data.keyword.powerSysFull}} [Feature/Service]?</question_template>
+    <answer_structure>
+      Definition sentence. Additional context about why this matters.
+      For more information, see [Link to related documentation](url).
+    </answer_structure>
+    <example_anchor>#what-is-ppc</example_anchor>
+    <tags>{: faq} {: support}</tags>
+  </pattern>
+
+  <pattern id="difference-comparison">
+    <name>Comparison FAQ</name>
+    <question_template>What is the difference between [Option A] and [Option B]?</question_template>
+    <answer_structure>
+      [{{site.data.keyword.off-prem}}]{: tag-blue}
+      Description of Option A.
+      
+      [{{site.data.keyword.on-prem}}]{: tag-red}
+      Description of Option B.
+    </answer_structure>
+    <example_anchor>#option-a-vs-option-b</example_anchor>
+    <tags>{: faq}</tags>
+  </pattern>
+
+  <pattern id="how-to-procedure">
+    <name>Procedure FAQ</name>
+    <question_template>How do I [accomplish specific task]?</question_template>
+    <answer_structure>
+      To [accomplish task], complete these steps:
+      1. Step one
+      2. Step two
+      3. Step three
+      
+      For more detailed information, see [Link to full guide](url).
+    </answer_structure>
+    <example_anchor>#how-to-task-name</example_anchor>
+    <tags>{: faq} {: support}</tags>
+  </pattern>
+
+  <pattern id="capability-yesno">
+    <name>Capability FAQ</name>
+    <question_template>Can I [perform specific action]?</question_template>
+    <answer_structure>
+      Yes/No. [Explanation]. For more information, see [reference](url).
+      [Optional: Add conditions or prerequisites]
+    </answer_structure>
+    <example_anchor>#can-i-perform-action</example_anchor>
+    <tags>{: faq}</tags>
+  </pattern>
+
+  <pattern id="technical-spec">
+    <name>Technical Specification FAQ</name>
+    <question_template>What [are/is] the [specification details]?</question_template>
+    <answer_structure>
+      [{{site.data.keyword.off-prem}}]{: tag-blue}
+      Details for public cloud version.
+      
+      [{{site.data.keyword.on-prem}}]{: tag-red}
+      Details for private cloud version.
+      
+      For complete specifications, see [detailed reference](url).
+    </answer_structure>
+    <example_anchor>#tech-spec-name</example_anchor>
+    <tags>{: faq} {: support}</tags>
+  </pattern>
+
+  <naming_conventions>
+    <anchor_format>kebab-case (lowercase with hyphens)</anchor_format>
+    <anchor_prefix_examples>what-is-, how-do-i-, can-i-, what-are-</anchor_prefix_examples>
+    <anchor_rule>Use descriptive names reflecting question content</anchor_rule>
+    <anchor_rule>Ensure uniqueness across entire faq.md</anchor_rule>
+  </naming_conventions>
+
+  <deployment_tagging>
+    <rule deploy="public">If PUBLIC CLOUD only: [{{site.data.keyword.off-prem}}]{: tag-blue}</rule>
+    <rule deploy="private">If PRIVATE CLOUD only: [{{site.data.keyword.on-prem}}]{: tag-red}</rule>
+    <rule deploy="both">If BOTH deployments: Include both tags with separate sections</rule>
+    <rule deploy="agnostic">If deployment-agnostic: No deployment tag needed</rule>
+  </deployment_tagging>
+
+  <variable_requirements>
+    <variable>{{site.data.keyword.powerSys_notm}} - Main PowerVS reference</variable>
+    <variable>{{site.data.keyword.off-prem}} - Public cloud identifier</variable>
+    <variable>{{site.data.keyword.on-prem}} - Private cloud identifier</variable>
+    <variable>{{site.data.keyword.powerSysFull}} - Full PowerVS name</variable>
+  </variable_requirements>
+</faq_patterns>
