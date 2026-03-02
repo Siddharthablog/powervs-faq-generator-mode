@@ -1,0 +1,60 @@
+name: PowerVS FAQ Auto-Generator
+
+on:
+  push:
+    branches: [source, main, master]
+    paths:
+      - 'docs/**/*.md'
+      - '!docs/README.md'
+  pull_request:
+    branches: [source, main, master]
+  workflow_dispatch:
+
+jobs:
+  generate-faq:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect new MD files
+        id: files
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            git diff --name-only HEAD~1 | grep 'docs/.*\\.md$' | grep -v README > new_files.txt || echo "" > new_files.txt
+          else
+            echo "" > new_files.txt
+          fi
+          cat new_files.txt
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install pyyaml requests
+
+      - name: Generate FAQs from new files
+        if: always()
+        run: python .github/scripts/bob-faq-generator.py
+        env:
+          BOB_API_URL: ${{ secrets.BOB_API_URL }}
+          BOB_API_KEY: ${{ secrets.BOB_API_KEY }}
+        continue-on-error: true
+
+      - name: Update TOC YAML
+        if: always()
+        run: python .github/scripts/update-toc.py
+        continue-on-error: true
+
+      - name: Commit and push changes
+        if: always()
+        run: |
+          git config --local user.email "bot@github.com"
+          git config --local user.name "FAQ Auto-Generator Bot"
+          git add faq/ toc.yaml || true
+          git commit -m "[AUTO] Generate FAQ entries from new documentation" || true
+          git push || true
